@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <title>필사 노트</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Nanum+Myeongjo&family=Nanum+Pen+Script&family=Nanum+Brush+Script&family=Noto+Sans+KR&family=Noto+Serif+KR&family=Black+Han+Sans&family=Cute+Font&family=Do+Hyeon&family=Dokdo&family=East+Sea+Dokdo&family=Gaegu&family=Gowun+Batang&family=Gowun+Dodum&family=Gugi&family=Hi+Melody&family=Jua&family=Kirang+Haerang&family=Kodchasan&family=Hahmlet&family=IBM+Plex+Sans+KR&family=Nanum+Gothic+Coding&family=Single+Day&family=Sunflower:wght@300;500;700&family=Stylish&family=Poor+Story&family=Yeon+Sung&display=swap" rel="stylesheet">
+  <body>
+
+    <div id="sidebar">
+      <h2>📝 노트 목록</h2>
+      <button onclick="addNote()">+ 새 노트</button>
+      <div id="noteList"></div>
+    </div>
+
+    <div id="main">
+      <div id="toolbar">
+        <select id="fontSelect" onchange="changeFont()">
+  <option value="'Segoe UI', sans-serif">기본</option>
+  <option value="'Nanum Gothic', sans-serif">나눔고딕</option>
+  <option value="'Nanum Myeongjo', serif">나눔명조</option>
+  <option value="'Nanum Pen Script', cursive">나눔펜</option>
+  <option value="'Nanum Brush Script', cursive">나눔붓</option>
+  <option value="'Noto Sans KR', sans-serif">Noto Sans</option>
+  <option value="'Noto Serif KR', serif">Noto Serif</option>
+  <option value="'Black Han Sans', sans-serif">검은고딕</option>
+  <option value="'Cute Font', cursive">귀여운폰트</option>
+  <option value="'Do Hyeon', sans-serif">도현</option>
+  <option value="'Dokdo', cursive">독도</option>
+  <option value="'East Sea Dokdo', cursive">동해독도</option>
+  <option value="'Gaegu', cursive">개구</option>
+  <option value="'Gowun Batang', serif">고운바탕</option>
+  <option value="'Gowun Dodum', sans-serif">고운돋움</option>
+  <option value="'Gugi', cursive">구기</option>
+  <option value="'Hi Melody', cursive">하이멜로디</option>
+  <option value="'Jua', sans-serif">주아</option>
+  <option value="'Kirang Haerang', cursive">기랑해랑</option>
+  <option value="'Hahmlet', serif">햄릿</option>
+  <option value="'IBM Plex Sans KR', sans-serif">IBM Plex</option>
+  <option value="'Nanum Gothic Coding', monospace">나눔코딩</option>
+  <option value="'Single Day', cursive">싱글데이</option>
+  <option value="'Sunflower', sans-serif">해바라기</option>
+  <option value="'Stylish', sans-serif">스타일리시</option>
+  <option value="'Poor Story', cursive">Poor Story</option>
+  <option value="'Yeon Sung', cursive">연성</option>
+  <option value="'Courier New', monospace">Courier (타자기)</option>
+  <option value="'Georgia', serif">Georgia (고전)</option>
+  <option value="'Malgun Gothic', sans-serif">맑은 고딕</option>
+  <option value="'Gungsuh', serif">궁서체</option>
+</select>
+        </select>
+        <select id="sizeSelect" onchange="changeSize()">
+          <option value="14px">작게</option>
+          <option value="18px">보통</option>
+          <option value="24px">크게</option>
+          <option value="32px">매우 크게</option>
+        </select>
+      </div>
+      <input id="noteTitle" placeholder="제목을 입력하세요" oninput="saveNote()">
+      <textarea id="noteContent" placeholder="여기에 필사를 시작하세요..." oninput="saveNote()"></textarea>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
