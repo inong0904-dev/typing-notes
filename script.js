@@ -132,6 +132,10 @@ function renderNoteList() {
       <div style="font-size: 11px; color: #aaa; margin-top: 3px;">${note.date || ""}</div>
     `;
     item.onclick = function() { selectNote(note.id); };
+    item.ondblclick = function(e) {
+  e.stopPropagation();
+  openProperties(note.id);
+};
     item.oncontextmenu = function(e) {
       e.preventDefault();
       deleteNote(note.id);
