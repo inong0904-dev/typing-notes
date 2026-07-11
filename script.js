@@ -31,7 +31,10 @@ async function addNote() {
       })
     });
     const data = await res.json();
-    note.id = data.id;
+   console.log("서버 응답:", data);
+    if (data.id) {
+      note.id = data.id;
+    }
   }
 
   notes.push(note);
