@@ -221,8 +221,8 @@ async function loadNotesFromServer() {
       saveToStorage();
       renderNoteList();
       selectNote(notes[0].id);
-    } else {
-      addNote();
+    } else 
+    {
     }
   }
 }
