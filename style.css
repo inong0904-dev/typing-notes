@@ -257,3 +257,10 @@ body {
   font-size: 13px;
   z-index: 10;
 }
+
+#counter {
+  font-size: 13px;
+  color: #aaa;
+  text-align: right;
+  padding: 4px 0;
+}
