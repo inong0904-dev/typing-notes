@@ -249,7 +249,6 @@ document.getElementById("noteContent").addEventListener("keydown", function(e) {
 
 let isBookMode = false;
 let currentSpread = 0;
-let draggedId = null;
 
 function toggleBookMode() {
   isBookMode = !isBookMode;
