@@ -7,15 +7,28 @@ function saveToStorage() {
   localStorage.setItem("notes", JSON.stringify(notes));
 }
 
-function addNote() {
+async function addNote() {
+  const res = await fetch(SERVER + "/notes", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({
+      title: "새 노트",
+      content: "",
+      font: "'Segoe UI', sans-serif",
+      size: "18px",
+      date: new Date().toLocaleDateString("ko-KR")
+    })
+  });
+  const data = await res.json();
   const note = {
-    id: Date.now(),
+    id: data.id,
     title: "새 노트",
     content: "",
     font: "'Segoe UI', sans-serif",
     size: "18px",
     date: new Date().toLocaleDateString("ko-KR")
-   };
+  };
   notes.push(note);
   saveToStorage();
   renderNoteList();
