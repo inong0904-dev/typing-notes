@@ -35,8 +35,16 @@ async function addNote() {
   selectNote(note.id);
 }
 
-function deleteNote(id) {
+async function deleteNote(id) {
   if (!confirm("이 노트를 삭제할까요?")) return;
+
+  if (isLoggedIn) {
+    await fetch(SERVER + "/notes/" + id, {
+      method: "DELETE",
+      credentials: "include"
+    });
+  }
+
   notes = notes.filter(function(n) { return n.id !== id; });
   saveToStorage();
   renderNoteList();
@@ -61,13 +69,30 @@ function selectNote(id) {
   renderNoteList();
 }
 
-function saveNote() {
+async function saveNote() {
   if (currentId === null) return;
   const note = notes.find(function(n) { return n.id === currentId; });
   note.title = document.getElementById("noteTitle").value || "새 노트";
   note.content = document.getElementById("noteContent").value;
+  note.modifiedDate = new Date().toLocaleDateString("ko-KR");
   saveToStorage();
   renderNoteList();
+  updateCounter();
+
+  if (isLoggedIn) {
+    await fetch(SERVER + "/notes/" + currentId, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({
+        title: note.title,
+        content: note.content,
+        font: note.font,
+        size: note.size,
+        modified_date: note.modifiedDate
+      })
+    });
+  }
 }
 
 function changeFont() {
