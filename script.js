@@ -336,14 +336,9 @@ checkLogin().then(function() {
   if (isLoggedIn) {
     loadNotesFromServer();
   } else {
-    const lastId = localStorage.getItem("lastNoteId");
-    const lastNote = notes.find(function(n) { return n.id === parseInt(lastId); });
-    if (lastNote) {
-      selectNote(lastNote.id);
-    } else if (notes.length > 0) {
-      selectNote(notes[0].id);
-    } else {
-      addNote();
-    }
+    // 로그인 안 됐으면 노트 안 보여주기
+    notes = [];
+    saveToStorage();
+    renderNoteList();
   }
 });
