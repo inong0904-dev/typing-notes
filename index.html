@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <title>필사 노트</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Nanum+Myeongjo&family=Nanum+Pen+Script&family=Nanum+Brush+Script&family=Noto+Sans+KR&family=Noto+Serif+KR&family=Black+Han+Sans&family=Cute+Font&family=Do+Hyeon&family=Dokdo&family=East+Sea+Dokdo&family=Gaegu&family=Gowun+Batang&family=Gowun+Dodum&family=Gugi&family=Hi+Melody&family=Jua&family=Kirang+Haerang&family=Kodchasan&family=Hahmlet&family=IBM+Plex+Sans+KR&family=Nanum+Gothic+Coding&family=Single+Day&family=Sunflower:wght@300;500;700&family=Stylish&family=Poor+Story&family=Yeon+Sung&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <!-- 로그인 오버레이 -->
+    <div id="loginOverlay" style="display:none;">
+      <div id="loginBox">
+        <h2>📝 필사 노트</h2>
+        <input id="loginUsername" placeholder="아이디" type="text">
+        <input id="loginPassword" placeholder="비밀번호" type="password">
+        <button onclick="login()">로그인</button>
+        <button onclick="register()">회원가입</button>
+      </div>
+    </div>
+
+    <!-- 로그인 상태 표시 -->
+    <div id="loginStatus" onclick="logout()" style="cursor:pointer;"></div>
+
+    <div id="sidebar">
+      <h2>📝 노트 목록</h2>
+      <button onclick="addNote()">+ 새 노트</button>
+      <button onclick="toggleBookMode()">📖 공책 모드</button>
+      <button onclick="toggleChaosMode()" id="chaosBtn">🌈 카오스 모드</button>
+      <div id="noteList"></div>
+    </div>
+
+    <button id="toggleBtn" onclick="toggleSidebar()">☰</button>
+
+    <div id="main">
+      <div id="toolbar">
+        <select id="fontSelect" onchange="changeFont()">
+          <option value="'Segoe UI', sans-serif">기본</option>
+          <option value="'Nanum Gothic', sans-serif">나눔고딕</option>
+          <option value="'Nanum Myeongjo', serif">나눔명조</option>
+          <option value="'Noto Sans KR', sans-serif">Noto Sans</option>
+          <option value="'Noto Serif KR', serif">Noto Serif</option>
+          <option value="'Gowun Batang', serif">고운바탕</option>
+          <option value="'Gowun Dodum', sans-serif">고운돋움</option>
+          <option value="'Hahmlet', serif">햄릿</option>
+          <option value="'IBM Plex Sans KR', sans-serif">IBM Plex</option>
+          <option value="'Nanum Gothic Coding', monospace">나눔코딩</option>
+          <option value="'Poor Story', cursive">Poor Story</option>
+          <option value="'Courier New', monospace">Courier (타자기)</option>
+          <option value="'Georgia', serif">Georgia (고전)</option>
+          <option value="'PretendardJP', sans-serif">Pretendard JP</option>
+          <option value="'KoPubDotum', sans-serif">KoPub 돋움</option>
+          <option value="'KoPubBatang', serif">KoPub 바탕</option>
+          <option value="'Helvetica', sans-serif">Helvetica</option>
+          <option value="'RIDIBatang', serif">리디바탕</option>
+          <option value="'MaruBuriRegular', serif">마루 부리 중간</option>
+          <option value="'YJwadag', sans-serif">양재와당</option>
+          <option value="'YJinitial', sans-serif">양재이니셜</option>
+          <option value="'BlankScript', sans-serif">Blank Script</option>
+          <option value="'RelationshipofMelodrame', sans-serif">Relationship of Melodrame</option>
+          <option value="'SCDream44', sans-serif">에스코어 드림 4</option>
+          <option value="'designhouseLight', sans-serif">디자인하우스 라이트</option>
+          <option value="'KCCDodamdodam', sans-serif">KCC 도담도담</option>
+          <option value="'Byeolbichhaneul', sans-serif">별빛하늘</option>
+          <option value="'MiraendaekyoVDotum', sans-serif">미래엔대교V돋움</option>
+          <option value="'MiraendaekyoVBatang', sans-serif">미래엔대교V바탕</option>
+        </select>
+        <input type="number" id="sizeSelect" value="18" min="8" max="72" onchange="changeSize()"> px
+      </div>
+      <input id="noteTitle" placeholder="제목을 입력하세요" oninput="saveNote()">
+      <div id="noteContent" contenteditable="true"
+           data-placeholder="여기에 필사를 시작하세요..."
+           oninput="saveNote()"></div>
+      <div id="counter">0 글자 · 0 줄</div>
+
+      <!-- 공책 모드 영역 -->
+      <div id="bookMode" style="display:none;">
+        <div id="bookContainer">
+          <div class="bookPage" id="leftPage"></div>
+          <div class="bookSpine"></div>
+          <div class="bookPage" id="rightPage"></div>
+        </div>
+        <div id="pageControls">
+          <button onclick="prevSpread()">◀ 이전</button>
+          <span id="pageNumber"></span>
+          <button onclick="nextSpread()">다음 ▶</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 속성 창 -->
+    <div id="noteProperties" style="display:none;">
+      <div id="propertiesBox">
+        <div id="propertiesHeader">
+          <span>📋 노트 속성</span>
+          <button onclick="closeProperties()">✕</button>
+        </div>
+        <div id="propertiesContent">
+          <div class="propRow">
+            <span class="propLabel">제목</span>
+            <span class="propValue" id="propTitle"></span>
+          </div>
+          <div class="propRow">
+            <span class="propLabel">만든 날짜</span>
+            <span class="propValue" id="propCreated"></span>
+          </div>
+          <div class="propRow">
+            <span class="propLabel">수정한 날짜</span>
+            <span class="propValue" id="propModified"></span>
+          </div>
+          <div class="propRow">
+            <span class="propLabel">총 글자 수</span>
+            <span class="propValue" id="propChars"></span>
+          </div>
+          <div class="propRow">
+            <span class="propLabel">총 줄 수</span>
+            <span class="propValue" id="propLines"></span>
+          </div>
+          <div class="propRow">
+            <span class="propLabel">폰트</span>
+            <span class="propValue" id="propFont"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
